@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MoodCal — Seasonal & Personal Days</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-season="autumn">
+
+  <div id="particlesLayer" class="particles-layer" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="title-group">
+        <h1>MoodCal</h1>
+        <span id="seasonBadge" class="season-tag">Autumn</span>
+        <span id="seasonRangeLabel" class="range-text">Sep 23 – Dec 20</span>
+      </div>
+
+      <div class="year-meter">
+        <span id="yearProgressLabel">2026 · 0%</span>
+        <div class="meter-bar">
+          <div id="yearProgressFill" class="meter-fill"></div>
+        </div>
+        <span id="daysRemainingLabel">0d left</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <!-- CALENDAR COLUMN -->
+    <section class="cal-box">
+      <div class="cal-top">
+        <div class="month-title">
+          <h2 id="monthYearLabel">November 2026</h2>
+        </div>
+
+        <div class="cal-actions">
+          <button id="prevYearBtn" class="btn-flat" title="Previous Year">«</button>
+          <button id="prevMonthBtn" class="btn-flat" title="Previous Month">‹</button>
+          <button id="todayBtn" class="btn-flat">Today</button>
+          <button id="nextMonthBtn" class="btn-flat" title="Next Month">›</button>
+          <button id="nextYearBtn" class="btn-flat" title="Next Year">»</button>
+        </div>
+      </div>
+
+      <div class="filter-bar">
+        <input
+          id="searchInput"
+          type="search"
+          class="field-input search-field"
+          placeholder="Filter by day name, keyword or MM-DD..."
+          autocomplete="off"
+        >
+        <button id="randomSpecialBtn" class="btn-flat">Random Day</button>
+        <button id="onlySpecialBtn" class="btn-flat" aria-pressed="false">Special Only</button>
+        <button id="clearSearchBtn" class="btn-flat" title="Reset search">Clear</button>
+      </div>
+
+      <div id="searchResults" class="search-drawer" hidden></div>
+
+      <div class="week-header">
+        <span>Mon</span>
+        <span>Tue</span>
+        <span>Wed</span>
+        <span>Thu</span>
+        <span>Fri</span>
+        <span>Sat</span>
+        <span>Sun</span>
+      </div>
+
+      <div id="calendarGrid" class="days-grid"></div>
+    </section>
+
+    <!-- SCENE & CARDS COLUMN -->
+    <aside class="side-stack">
+      <div class="tree-box">
+        <div class="box-meta">
+          <span id="sceneCaption">Amber Leaves & Crisp Air</span>
+          <strong id="selectedDateBadge">22 Nov 2026</strong>
+        </div>
+
+        <div class="tree-frame">
+          <svg id="seasonTreeSvg" viewBox="0 0 360 240" class="tree-graphic" role="img" aria-label="Seasonal Tree">
+            <defs>
+              <linearGradient id="barkTone" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#3a2314" />
+                <stop offset="50%" stop-color="#613d24" />
+                <stop offset="100%" stop-color="#2d1a0e" />
+              </linearGradient>
+              <linearGradient id="pineTone" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#2e7d5b" />
+                <stop offset="100%" stop-color="#184734" />
+              </linearGradient>
+            </defs>
+
+            <!-- Sky & Hills -->
+            <circle cx="292" cy="48" r="18" class="sun-disc" />
+            <path d="M0,192 Q110,168 210,190 T360,184 L360,240 L0,240 Z" class="hill-far" />
+            <path d="M0,204 Q180,186 360,204 L360,240 L0,240 Z" class="hill-near" />
+            <path d="M0,200 Q180,182 360,200 L360,240 L0,240 Z" class="snow-layer" />
+            <ellipse cx="180" cy="211" rx="52" ry="7" fill="rgba(0,0,0,0.18)" />
+
+            <!-- Deciduous Tree -->
+            <g id="deciduousTree" class="deciduous-tree sway-tree">
+              <path
+                d="M158,212
+                   Q169,200 170,174
+                   L169,144
+                   L124,108 L128,103 L153,124 L140,96 L145,93 L169,134
+                   L156,84 L162,81 L175,123
+                   L177,70 L183,70 L182,121
+                   L203,80 L208,83 L188,125
+                   L226,100 L230,105 L205,123 L217,95 L222,98 L190,136
+                   L190,174
+                   Q191,200 202,212
+                   Q187,208 180,212
+                   Q173,208 158,212 Z"
+                fill="url(#barkTone)"
+              />
+
+              <g class="foliage-group">
+                <circle cx="134" cy="108" r="32" class="leaf-back" />
+                <circle cx="226" cy="108" r="32" class="leaf-back" />
+                <circle cx="180" cy="74" r="36" class="leaf-back" />
+
+                <circle cx="124" cy="98" r="28" class="leaf-mid" />
+                <circle cx="236" cy="98" r="28" class="leaf-mid" />
+                <circle cx="154" cy="78" r="33" class="leaf-mid" />
+                <circle cx="206" cy="78" r="33" class="leaf-mid" />
+                <circle cx="180" cy="96" r="41" class="leaf-mid" />
+
+                <circle cx="160" cy="66" r="22" class="leaf-top" />
+                <circle cx="200" cy="68" r="21" class="leaf-top" />
+                <circle cx="180" cy="56" r="24" class="leaf-top" />
+              </g>
+
+              <g class="spring-blossoms">
+                <circle cx="144" cy="76" r="4" fill="#fff5f7" />
+                <circle cx="176" cy="56" r="4.5" fill="#ffffff" />
+                <circle cx="204" cy="72" r="4" fill="#fff5f7" />
+                <circle cx="222" cy="95" r="3.8" fill="#ffffff" />
+                <circle cx="134" cy="96" r="4" fill="#ffffff" />
+                <circle cx="166" cy="92" r="4.2" fill="#fff5f7" />
+                <circle cx="194" cy="96" r="3.8" fill="#ffffff" />
+              </g>
+
+              <g class="autumn-pile">
+                <ellipse cx="144" cy="211" rx="9" ry="3" fill="#c2591c" />
+                <ellipse cx="158" cy="213" rx="7" ry="2.5" fill="#d48c2a" />
+                <ellipse cx="206" cy="212" rx="10" ry="3" fill="#b86b19" />
+                <ellipse cx="220" cy="214" rx="7" ry="2.5" fill="#a8382b" />
+              </g>
+
+              <g class="winter-caps">
+                <path d="M123,105 L129,101 L168,132 L164,135 Z" fill="#ffffff" />
+                <path d="M139,93 L145,91 L156,118 L152,120 Z" fill="#ffffff" />
+                <path d="M155,81 L162,79 L175,119 L170,120 Z" fill="#ffffff" />
+                <path d="M176,67 L183,67 L182,119 L177,119 Z" fill="#ffffff" />
+                <path d="M202,77 L208,81 L188,122 L184,119 Z" fill="#ffffff" />
+                <path d="M225,97 L230,102 L191,133 L187,129 Z" fill="#ffffff" />
+                <ellipse cx="180" cy="210" rx="32" ry="5.5" fill="#ffffff" />
+              </g>
+            </g>
+
+            <!-- Holiday Pine Tree (Dec 24–31) -->
+            <g id="holidayTree" class="holiday-tree">
+              <rect x="171" y="182" width="18" height="28" rx="2" fill="#3a2314" />
+              <polygon points="180,106 118,184 242,184" fill="url(#pineTone)" />
+              <polygon points="180,76 130,144 230,144" fill="url(#pineTone)" />
+              <polygon points="180,48 143,106 217,106" fill="url(#pineTone)" />
+
+              <polygon class="holiday-star" points="180,24 184,35 195,35 186,42 189,53 180,46.5 171,53 174,42 165,35 176,35" fill="#eab308" />
+
+              <g class="holiday-lights">
+                <circle cx="165" cy="86" r="4" fill="#e11d48" />
+                <circle cx="194" cy="90" r="4" fill="#0284c7" />
+                <circle cx="154" cy="126" r="4.5" fill="#eab308" />
+                <circle cx="182" cy="120" r="4.5" fill="#e11d48" />
+                <circle cx="206" cy="128" r="4.5" fill="#0284c7" />
+                <circle cx="142" cy="166" r="5" fill="#0284c7" />
+                <circle cx="170" cy="162" r="5" fill="#eab308" />
+                <circle cx="196" cy="165" r="5" fill="#e11d48" />
+              </g>
+
+              <rect x="130" y="194" width="20" height="16" rx="2" fill="#be123c" />
+              <rect x="208" y="192" width="22" height="18" rx="2" fill="#0369a1" />
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Selected Day Card -->
+      <article class="info-card">
+        <div class="info-top">
+          <span id="dayEmoji" class="info-mark">🍂</span>
+          <div>
+            <h3 id="dayTitle">Crisp Autumn Day</h3>
+            <p id="dayCategory" class="info-sub">22nd · Autumn</p>
+          </div>
+        </div>
+        <p id="dayDescription" class="info-body">
+          Cool autumn air and amber leaves shape the scene.
+        </p>
+        <div class="info-actions">
+          <button id="deleteCustomBtn" class="btn-flat warn-btn" hidden>Remove Card</button>
+          <button id="copyDayBtn" class="btn-flat">Copy Note</button>
+        </div>
+      </article>
+
+      <!-- Personal Card Creator -->
+      <form id="customDayForm" class="card-creator">
+        <div class="creator-head">
+          <h4>Personal Card</h4>
+          <span id="customTargetHint" class="creator-date">22 Nov</span>
+        </div>
+
+        <div class="creator-row">
+          <input id="customEmoji" type="text" class="field-input mark-input" value="📌" maxlength="4" aria-label="Symbol or Emoji">
+          <input id="customTitle" type="text" class="field-input" placeholder="Your card title for this date..." required>
+        </div>
+
+        <input id="customNote" type="text" class="field-input" placeholder="Short note, memory, or reminder...">
+        <button type="submit" class="btn-flat save-btn">Save Personal Card</button>
+      </form>
+    </aside>
+  </main>
+
+  <script src="script.js"></script>
+  <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-T2L4T4XL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  </script>
+</body>
+</html>
